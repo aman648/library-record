@@ -51,4 +51,72 @@ def savebooks(Book):
     except:
         print("we have an error")        
 
+def load_books():
+    try:
+        file= open("data.dat","r")
+        loaded_books= json.loads(file.read())
+        books=[]
+        for book in loaded_books:
+            new_book= Book(book['id'], book['name'], book['description'], book['pageno'], book['author'], book['issue'])
+            books.append(new_book)
+            print("sucess")
+        return books
 
+    except:
+        print("erroe in loading the book")    
+
+def find_book(books, id):
+
+    for index, book in enumerate(books):
+        if book.id== id:
+            return index
+
+    return None    
+def issue_book(books):
+    id = input("enter the id to be searched")  
+    index= find_book(books, id)
+
+    if index != None:
+        books[index].issued = True
+        print("successfully issued")
+
+    else:
+        print("not issued")
+
+
+def return_book(books):
+    id = input("enter the id to be searched")  
+    index= find_book(books, id)
+
+    if index != None:
+        books[index].issued = False
+        print("successfully returned")
+
+    else:
+        print("not returned") 
+
+
+def update_book(books):
+    id = input("enter the id to be searched")  
+    index= find_book(books, id)
+
+    if index != None:
+        new_book = create_book()
+        old_book = books[index]
+        del old_book
+        print("successfully updated")
+
+    else:
+        print("not updated")
+        
+def show_allbooks(books):
+    for book in books:
+        print(book.dic())
+
+def show_book(books):
+    id = input("id to be searched")
+    index= find_book(books, id)
+    if index != None:
+        print(books[index].dic())
+    else:
+        print("cannot find book") 
